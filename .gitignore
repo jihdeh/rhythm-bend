@@ -2,3 +2,9 @@ node_modules
 *.log
 .eslintrc
 coverage
+.dockerignore
+Dockerfile
+npm-debug.log
+.git
+.hg
+.svn
