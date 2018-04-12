@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import supertest from "supertest-as-promised";
+import supertest from "supertest";
 import App from "../server/app";
 
 const app = App();
