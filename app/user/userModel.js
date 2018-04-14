@@ -7,8 +7,14 @@ const user = mongoose.Schema({
         unique:true
     },
     password:{
-        type:String,
-        required:true,
+        salt:{
+            required:true,
+            type:String
+        },
+        hash:{
+            required:true,
+            type:String
+        }
     }
 })
 

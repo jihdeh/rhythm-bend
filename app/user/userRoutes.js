@@ -1,4 +1,8 @@
 import Router from 'koa-router'
+import passport from 'koa-passport'
+import LocalStrategy from 'passport-local'
+import User from './userModel'
+import usercontroller from './userController'
 
 export default function register (app){
     const router = new Router({
@@ -7,9 +11,9 @@ export default function register (app){
 
     router
         .post('/signup',(ctx,next)=>{})
-        .post('/signin',(ctx,next)=>{})
-        .put('/:id',(ctx,next)=>{})
-        .delete('/',(ctx,next)=>{})
+        .post('/signin',usercontroller.login)
+        .put('/:uid',(ctx,next)=>{})
+        .delete('/:uid',(ctx,next)=>{})
 
     app.use(router.routes()).use(router.allowedMethods())
 }
