@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 export default function(app){
-    const url = "mongodb://jornie:jornie@ds153198.mlab.com:53198/soundit"
+    const url = "mongodb://jornie:jornie@ds047722.mlab.com:47722/soundit"
 
     mongoose.connect(url)
             .then(()=>

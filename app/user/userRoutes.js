@@ -12,8 +12,8 @@ export default function register (app){
     router
         .post('/signup',usercontroller.register)
         .post('/signin',usercontroller.login)
-        .put('/:uid',(ctx,next)=>{})
-        .delete('/:uid',(ctx,next)=>{})
+        .put('/:uid',usercontroller.update)
+        .delete('/:uid',usercontroller.delete)
 
     app.use(router.routes()).use(router.allowedMethods())
 }

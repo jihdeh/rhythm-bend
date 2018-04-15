@@ -1,5 +1,4 @@
 import User from '../../../app/user/userModel'
-import userController from '../../../app/user/userController'
 import log from '../../../util/log'
 import _ from 'lodash'
 import crypto from 'crypto'
@@ -8,21 +7,10 @@ export default function(){
 log.info('Seeding the Database')
 
 const users=[
-    {username:'jimmlo',password:'test'},
-    {username:'xoko',password:'test'},
-    {username:'katamon',password:'test'}
+    {email:'jimmlo@x.com',password:'test'},
+    {email:'jimmy@x.com',password:'test'},
+    {email:'xoko@x.com',password:'test'}
 ]
-
-let encryptPass = (alldata) =>{
-   let salt = crypto.randomBytes(128).toString('hex')
-   let newData = alldata.map((data)=>{
-            let _data = data
-            _data.password=userController.hashPassword(data.password,salt)
-            return _data
-        })
-    
-    return newData
-}
 
 const createDoc = (model,doc)=>(
     new Promise(
@@ -41,7 +29,16 @@ const cleanDB = ()=>{
 }
 
 const createUsers = (data)=>{
-    let promises = encryptPass(users).map((user)=>createDoc(User,user))
+    let promises = users.map((user)=>{
+        let newuser = new User()
+        newuser.password = newuser.hashPassword(user.password,newuser.saltPassword())
+        newuser.email = user.email
+
+        return  newuser
+                .save()
+                .catch(e=>console.log('user exists'))
+    })
+
     return Promise.all(promises)
             .then((users)=>_.merge({users:users},data || {}))
             .catch((err)=>console.log('user exists'))

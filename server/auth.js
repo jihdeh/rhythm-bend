@@ -5,20 +5,22 @@ import userController from '../app/user/userController'
 import crypto from 'crypto'
 
 const options = {
-    session: false
+    usernameField : 'email',
+    passwordField : 'password'
 }
 
-passport.serializeUser((user,done)=>done(null,user.username))
+
+passport.serializeUser((user,done)=>done(null,user))
 
 passport.deserializeUser((user,done)=>done(null,user))
 
 function localsignin (){
-passport.use('local-signin',new LocalStrategy(options,(username,password,done)=>{
-    User.findOne({username})
+passport.use('local-signin',new LocalStrategy(options,(email,password,done)=>{
+    User.findOne({ email })
         .then((user)=>{
             if (!user) return done(null,false,"User does not exist")
-            if (userController.hashPassword(password,user.password.salt).hash === user.password.hash){
-                return done(null,{username:user.username})
+            if (user.hashPassword(password,user.password.salt).hash===user.password.hash){
+                return done(null,user)
             } else {
                 return done(null,false,"Password does not match")
             }
@@ -28,23 +30,23 @@ passport.use('local-signin',new LocalStrategy(options,(username,password,done)=>
 }
 
 function localsignup (){
-    passport.use('local-signup',new LocalStrategy(options,(username,password,done)=>{
-        User.findOne({username})
+    passport.use('local-signup',new LocalStrategy(options,(email,password,done)=>{
+        User.findOne({ 'email' : email })
             .then((user)=>{
                 if (user){ 
                     return done(null,false,"This username is already taken")
                 }else{
-                      let newuser = {}
-                          newuser.password = userController.hashPassword(password,crypto.randomBytes(128).toString('hex'))
-                          newuser.username = username
-
-                          new User(newuser)
+                      let newuser = new User()
+                          newuser.password = newuser.hashPassword(password,newuser.saltPassword())
+                          newuser.email = email
+                          
+                                newuser
                                 .save((err,saved)=>{
                                     if(err){
-                                    return done(null, false,err);
+                                    return done(null, false,err)
                                     }
                                     if(saved){
-                                        return done(null,{username:newuser.username});
+                                        return done(null,saved)
                                     }
                                 }) 
                 }
