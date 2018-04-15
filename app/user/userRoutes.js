@@ -10,7 +10,7 @@ export default function register (app){
       })
 
     router
-        .post('/signup',(ctx,next)=>{})
+        .post('/signup',usercontroller.register)
         .post('/signin',usercontroller.login)
         .put('/:uid',(ctx,next)=>{})
         .delete('/:uid',(ctx,next)=>{})
