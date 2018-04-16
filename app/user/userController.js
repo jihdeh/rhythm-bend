@@ -12,7 +12,8 @@ const authenticate = (type,ctx) =>{
                                                 data:{  
                                                         email:user.email,
                                                         id:user._id,
-                                                        name:user.name,
+                                                        firstName:user.firstName,
+                                                        lastName:user.lastName,
                                                         type:user.type
                                                     }
                                             }
@@ -21,9 +22,11 @@ const authenticate = (type,ctx) =>{
                                             ctx.status = 400
                                             ctx.body = { 
                                                 status: 'error',
-                                                data:info
+                                                data:{
+                                                    message:info
                                                 }
                                             }
+                                        }
                                     })(ctx)
                                 }
 
@@ -34,13 +37,15 @@ const response = (user,ctx) =>{
                             data:{  
                                 email:user.email,
                                 id:user._id,
-                                name:user.name,
+                                firstName:user.firstName,
+                                lastName:user.lastName,
                                 type:user.type
                             }
                         }
                     }else if(!user){
-                        ctx.status = 200
+                        ctx.status = 400
                         ctx.body={
+                            status: 'error',
                             data:{  
                                 message:'user not found'
                             }
@@ -52,7 +57,9 @@ const reject = (e,ctx) =>{
                         ctx.status = 400
                         ctx.body={
                             status: 'error',
-                            data:e
+                            data:{
+                                message:e
+                            }
                         }
                     }
 

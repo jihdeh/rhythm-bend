@@ -1,15 +1,14 @@
 import User from '../../../app/user/userModel'
 import log from '../../../util/log'
 import _ from 'lodash'
-import crypto from 'crypto'
 
 export default function(){
 log.info('Seeding the Database')
 
 const users=[
-    {email:'jimmlo@x.com',password:'test'},
-    {email:'jimmy@x.com',password:'test'},
-    {email:'xoko@x.com',password:'test'}
+    {email:'jimmlo@x.com',firstName:'jim',lastName:'zing',password:'test',type:'voter'},
+    {email:'jimmy@x.com',firstName:'kim',lastName:'kar',password:'test',type:'contestant'},
+    {email:'xoko@x.com',firstName:'jake',lastName:'mark',password:'test',type:'contestant'}
 ]
 
 const createDoc = (model,doc)=>(
@@ -30,13 +29,11 @@ const cleanDB = ()=>{
 
 const createUsers = (data)=>{
     let promises = users.map((user)=>{
-        let newuser = new User()
+        let newuser = new User(user)
         newuser.password = newuser.hashPassword(user.password,newuser.saltPassword())
-        newuser.email = user.email
-
+        
         return  newuser
                 .save()
-                .catch(e=>console.log('user exists'))
     })
 
     return Promise.all(promises)

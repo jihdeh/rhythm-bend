@@ -2,13 +2,11 @@ import mongoose from 'mongoose'
 import crypto from 'crypto'
 
 const user = mongoose.Schema({
-    email:String,
-    password:{
-        salt:String,
-        hash:String
-    },  
-    name:String,
-    type:String
+    email:{ type:String, required:true },
+    password:{ salt:String, hash:String },  
+    firstName:{ type:String, required:true, trim:true },
+    lastName:{ type:String, required:true, trim:true },
+    type:{ type:String, required:true }
 })
 
 

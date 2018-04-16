@@ -11,6 +11,7 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "chai": "^4.1.2",
+    "dotenv": "^5.0.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-cache-control": "^2.0.0",
