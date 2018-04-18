@@ -67,16 +67,33 @@ const reject = (e, ctx) => {
 const searchresult = (user, ctx) => {
   if (user) {
     ctx.status = 200;
-    ctx.body = {
-      data: {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        uniqueCode: user.uniqueCode,
-        about: user.about,
-        location: user.location,
-        contestantVideo: user.contestantVideo
-      }
-    };
+    if (ctx.request.body.admin) {
+      ctx.body = {
+        data: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          uniqueCode: user.uniqueCode,
+          about: user.about,
+          location: user.location,
+          contestantVideo: user.contestantVideo,
+          email: user.email,
+          type: user.type,
+          numberOfVotesAttained: user.numberOfVotesAttained,
+          hasPaid: user.hasPaid
+        }
+      };
+    } else {
+      ctx.body = {
+        data: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          uniqueCode: user.uniqueCode,
+          about: user.about,
+          location: user.location,
+          contestantVideo: user.contestantVideo
+        }
+      };
+    }
   } else {
     ctx.status = 400;
     ctx.body = {
