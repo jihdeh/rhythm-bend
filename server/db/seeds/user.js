@@ -1,10 +1,9 @@
 import User from "../../../app/user/userModel";
 import log from "../../../util/log";
 import _ from "lodash";
-import shortid from "shortid";
-import { generate } from "../../auth";
+import generate from '../../../util/generatecode'
 
-export default function() {
+export default function () {
   log.info("Seeding the Database");
 
   const users = [
@@ -15,16 +14,14 @@ export default function() {
       password: "test",
       type: "voter",
       phoneNumber: 2348144194590
-    },
-    {
+    }, {
       email: "jimmy@x.com",
       firstName: "kim",
       lastName: "kar",
       password: "test",
       type: "contestant",
       phoneNumber: 2348144194590
-    },
-    {
+    }, {
       email: "xoko@x.com",
       firstName: "jake",
       lastName: "mark",
@@ -34,10 +31,9 @@ export default function() {
     }
   ];
 
-  const createDoc = (model, doc) =>
-    new Promise((resolve, reject) =>
-      new model(doc).save((err, saved) => (err ? reject(err) : resolve(saved)))
-    );
+  const createDoc = (model, doc) => new Promise((resolve, reject) => new model(doc).save((err, saved) => (err
+    ? reject(err)
+    : resolve(saved))));
 
   const cleanDB = () => {
     log.info("...cleaning the DB");
@@ -48,17 +44,21 @@ export default function() {
   };
 
   const createUsers = async data => {
-    const allusers = await User.find({ type: "contestant" });
-    let promises = users.map(async (user, key) => {
+    const allusers = await User.find({type: "contestant"});
+    let promises = users.map(async(user, key) => {
       let newuser = new User(user);
       const uniqueCode = await generate(newuser.firstName, User);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
-      if (user.type === "contestant") newuser.uniqueCode = uniqueCode;
+      if (user.type === "contestant") 
+        newuser.uniqueCode = uniqueCode;
       return newuser.save();
     });
 
-    return Promise.all(promises)
-      .then(users => _.merge({ users: users }, data || {}))
+    return Promise
+      .all(promises)
+      .then(users => _.merge({
+        users: users
+      }, data || {}))
       .catch(err => console.log("user exists"));
   };
 
