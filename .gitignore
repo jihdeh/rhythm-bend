@@ -8,3 +8,4 @@ npm-debug.log
 .git
 .hg
 .svn
+.env
