@@ -6,6 +6,7 @@ const user = mongoose.Schema({
   password: { salt: String, hash: String },
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
+  phoneNumber: { type: Number, required: true },
   type: {
     type: String,
     enum: ["voter", "contestant"],
