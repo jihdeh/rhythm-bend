@@ -8,7 +8,6 @@ const sendSms = async to => {
             .messages
             .create({to: to, from: process.env.number, body: "it takes two to tangle"});
         if (message) {
-            console.log(message.sid);
             return message;
         }
     } catch (e) {

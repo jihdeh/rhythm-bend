@@ -52,7 +52,7 @@ export default function() {
     let promises = users.map(async (user, key) => {
       let newuser = new User(user);
       const uniqueCode = await generate(newuser.firstName, User);
-      await sendSms("+" + newuser.phoneNumber);
+      await sendSms(`+${newuser.phoneNumber}`);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
       if (user.type === "contestant") newuser.uniqueCode = uniqueCode;
       return newuser.save();
