@@ -1,8 +1,8 @@
 import User from "../../../app/user/userModel";
 import log from "../../../util/log";
 import _ from "lodash";
-import shortid from "shortid";
-import { generate } from "../../auth";
+import generate from "../../../util/generatecode";
+import sendSms from "../../../util/sms-client";
 
 export default function() {
   log.info("Seeding the Database");
@@ -52,13 +52,21 @@ export default function() {
     let promises = users.map(async (user, key) => {
       let newuser = new User(user);
       const uniqueCode = await generate(newuser.firstName, User);
+      await sendSms(`+${newuser.phoneNumber}`);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
       if (user.type === "contestant") newuser.uniqueCode = uniqueCode;
       return newuser.save();
     });
 
     return Promise.all(promises)
-      .then(users => _.merge({ users: users }, data || {}))
+      .then(users =>
+        _.merge(
+          {
+            users: users
+          },
+          data || {}
+        )
+      )
       .catch(err => console.log("user exists"));
   };
 

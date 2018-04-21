@@ -2,28 +2,8 @@ import passport from "koa-passport";
 import LocalStrategy from "passport-local";
 import User from "../app/user/userModel";
 import shortid from "shortid";
-
-shortid.characters("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@");
-
-const generateShortCode = async (name, Model) => {
-  const reg = new RegExp("[^A-Za-z]");
-  const shortidcode = shortid
-    .generate()
-    .substring(0, 4)
-    .toUpperCase()
-    .replace(reg, "B");
-  const uniqueCode = name + shortidcode;
-  try {
-    const verify = await Model.find({ uniqueCode });
-    if (verify.length) {
-      return generateShortCode(name, Model);
-    } else {
-      return uniqueCode;
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
+import sendSms from "../util/sms-client";
+import generateShortCode from "../util/generatecode";
 
 const options = {
   usernameField: "email",
@@ -62,8 +42,13 @@ function localsignup() {
       try {
         const user = await User.findOne({ email: email });
         const uniquecode = generateShortCode(req.body.firstName, User);
+
         if (user) {
-          return done(null, false, "This username is already taken");
+          return done(
+            null,
+            false,
+            "An account has already being registered with this email address"
+          );
         } else {
           if (req.body.password === req.body.confirmPassword) {
             let newuser = new User(req.body);
@@ -73,14 +58,13 @@ function localsignup() {
 
             if (newuser.type === "contestant") newuser.uniqueCode = uniqueCode;
 
-            newuser.save((err, saved) => {
-              if (err) {
-                return done(null, false, err);
-              }
-              if (saved) {
-                return done(null, saved);
-              }
-            });
+            try {
+              const saved = await newuser.save();
+              await sendSms(`+${newuser.phoneNumber}`);
+              return done(null, saved);
+            } catch (err) {
+              return done(null, false, err);
+            }
           } else {
             return done(
               null,
