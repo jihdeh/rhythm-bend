@@ -56,7 +56,7 @@ function localsignup() {
 
             newuser.password = newuser.hashPassword(password, newuser.saltPassword());
 
-            if (newuser.type === "contestant") newuser.uniqueCode = uniqueCode;
+            newuser.uniqueCode = uniqueCode;
 
             try {
               const saved = await newuser.save();

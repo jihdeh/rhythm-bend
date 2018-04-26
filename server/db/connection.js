@@ -1,11 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-export default function(app){
-    const url = process.env.DB_URL
+export default function(app) {
+  console.log(process.env, "-a-as");
+  const url = process.env.DB_URL;
 
-    mongoose.connect(url)
-            .then(()=>
-                console.info(`==> ✅  Database connection established`)
-            )
-            .catch(err=>console.error(err))
+  mongoose
+    .connect(url)
+    .then(() => console.info(`==> ✅ Database connection established`))
+    .catch(err => console.error(err));
 }

@@ -13,7 +13,6 @@ const authenticate = (type, ctx) => {
           id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
-          type: user.type,
           uniquecode: user.uniqueCode
         }
       };
@@ -40,7 +39,6 @@ const response = (user, ctx) => {
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
-        type: user.type,
         uniquecode: user.uniqueCode
       }
     };
@@ -74,10 +72,10 @@ const searchresult = (user, ctx) => {
           lastName: user.lastName,
           uniqueCode: user.uniqueCode,
           about: user.about,
-          location: user.location,
+          state: user.state,
+          country: user.country,
           contestantVideo: user.contestantVideo,
           email: user.email,
-          type: user.type,
           numberOfVotesAttained: user.numberOfVotesAttained,
           hasPaid: user.hasPaid
         }
@@ -89,7 +87,8 @@ const searchresult = (user, ctx) => {
           lastName: user.lastName,
           uniqueCode: user.uniqueCode,
           about: user.about,
-          location: user.location,
+          state: user.state,
+          country: user.country,
           contestantVideo: user.contestantVideo
         }
       };

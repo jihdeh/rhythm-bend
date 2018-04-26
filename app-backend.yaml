@@ -43,6 +43,11 @@ spec:
         ports:
         - name: http-server
           containerPort: 8080
+        envFrom:
+          - configMapRef:
+              name: env-configmap #NOT secret environment vars
+          - secretRef:
+              name: env-secrets
         env:
           - name: PROJECT_ID
             value: sounditafrica-200418

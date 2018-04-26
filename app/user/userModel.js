@@ -6,21 +6,15 @@ const user = mongoose.Schema({
   password: { salt: String, hash: String },
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
-  phoneNumber: { type: Number, required: true },
-  type: {
-    type: String,
-    enum: ["voter", "contestant"],
-    required: true
-  },
-  lastVotedFor: mongoose.Schema.Types.ObjectId,
-  numberOfVotesCasted: Number,
-  location: String,
-  contestantVideo: String,
+  phoneNumber: { type: String, required: true },
+  profilePhoto: String,
+  contestantVideo: [String],
   numberOfVotesAttained: Number,
   hasPaid: Boolean,
   uniqueCode: { type: String, trim: true },
   about: String,
-  location: String
+  state: String,
+  country: String
 });
 
 user.methods.saltPassword = () => crypto.randomBytes(128).toString("hex");
