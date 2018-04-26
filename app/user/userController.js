@@ -1,20 +1,31 @@
 import crypto from "crypto";
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
+import jwt from "jsonwebtoken";
 import User from "./userModel";
+
+const SECRET = process.env.AUTH_SECRET;
 
 const authenticate = (type, ctx) => {
   return passport.authenticate(type, (err, user, info, status) => {
     if (user) {
       ctx.status = 200;
       ctx.body = {
-        data: {
-          email: user.email,
-          id: user._id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          uniquecode: user.uniqueCode
-        }
+        data: jwt.sign(
+          {
+            token: {
+              email: user.email,
+              id: user._id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              uniquecode: user.uniqueCode
+            }
+          },
+          SECRET,
+          {
+            expiresIn: "7d"
+          }
+        )
       };
       return ctx.login(user);
     } else {
@@ -31,7 +42,6 @@ const authenticate = (type, ctx) => {
 
 const response = (user, ctx) => {
   if (user) {
-    console.log(user);
     ctx.status = 200;
     ctx.body = {
       data: {

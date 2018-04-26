@@ -2,13 +2,14 @@ import koa from "koa";
 import cors from "@koa/cors";
 import forward from "koa-forward-request";
 import mount from "koa-mount";
+import session from "koa-session";
+import passport from "koa-passport";
+
 import log from "../util/log";
 import Api from "./api";
 import connection from "./db/connection";
 import Frontend from "./frontend";
 import seed from "./db/seeds/user";
-import session from "koa-session";
-import passport from "koa-passport";
 import auth from "./auth";
 
 function App() {
