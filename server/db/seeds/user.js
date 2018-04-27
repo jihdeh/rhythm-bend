@@ -1,4 +1,4 @@
-import User from "../../../app/user/userModel";
+import User from "../../models/userModel";
 import log from "../../../util/log";
 import _ from "lodash";
 import generate from "../../../util/generatecode";

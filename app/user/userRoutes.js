@@ -1,7 +1,7 @@
 import Router from "koa-router";
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
-import User from "./userModel";
+import User from "../../server/models/userModel";
 import usercontroller from "./userController";
 
 //authentication

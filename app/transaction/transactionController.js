@@ -3,32 +3,38 @@ import config from "../../server/config/config";
 
 const reject = (e, ctx) => {
   ctx.status = e.response.status;
-  ctx.body = {
-    status: e.response.data.status,
-    message: e.response.data.message
-  };
+  ctx.body = invalidResponse(e);
 };
+
+const invalidResponse = e => ({
+  status: e.response.data.status,
+  message: e.response.data.message
+});
+
+const validResponse = _res => ({
+  status: _res.data.data.status,
+  message: _res.data.message,
+  gateway_response: _res.data.data.gateway_response,
+  authorization: _res.data.data.authorization,
+  reference: _res.data.data.reference,
+  log: _res.data.data.log
+});
 
 const resolve = (_res, ctx) => {
   ctx.status = 200;
   ctx.body = {
-    data: {
-      status: _res.data.data.status,
-      message: _res.data.message,
-      gateway_response: _res.data.data.gateway_response,
-      authorization: _res.data.data.authorization,
-      reference: _res.data.data.reference,
-      log: _res.data.data.log
-    }
+    data: validResponse(_res)
   };
 };
 
-exports.verify = async ctx => {
+exports.verify = async (ctx, funcCall) => {
+  //funcCall refers to the function called within server
   const reference = ctx.params.reference;
   try {
     const _res = await axios.get(`${config.endpoint}${reference}`, { headers: config.headers });
-    resolve(_res, ctx);
+    return funcCall ? validResponse(_res) : resolve(_res, ctx);
   } catch (e) {
-    reject(e, ctx);
+    return funcCall ? invalidResponse(e) : reject(e, ctx);
   }
 };
+

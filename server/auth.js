@@ -1,6 +1,6 @@
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
-import User from "../app/user/userModel";
+import User from "./models/userModel";
 import shortid from "shortid";
 import sendSms from "../util/sms-client";
 import generateShortCode from "../util/generatecode";

@@ -12,6 +12,7 @@ const user = mongoose.Schema({
   numberOfVotesAttained: Number,
   hasPaid: Boolean,
   uniqueCode: { type: String, trim: true },
+  paymentReference: { type: String, required: true },
   about: String,
   state: String,
   country: String
