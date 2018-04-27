@@ -30,13 +30,31 @@ const donations = async ctx => {
 
 const votings = async ctx => {
   try {
-    const uniqueCode = ctx.params.uniqueCode;
+    // /api/vote/841736995?uniqueCode=jakeRJWL&voteCount=2 url sample.
+    const uniqueCode = ctx.query.uniqueCode;
     const voteCount = ctx.query.voteCount;
-    const findContestant = User.findOne({ uniqueCode });
+    const findContestant = await User.findOne({ uniqueCode }).select("numberOfVotesAttained");
+
+    const incVote = +findContestant.numberOfVotesAttained + +voteCount;
+
+    const isVerified = await verifyPaystackResponse(ctx);
+
+    if (!isVerified) {
+      ctx.status = 404;
+      ctx.body = "Payment not valid";
+      return;
+    }
+    const updateContestantVote = await User.findOneAndUpdate(
+      { uniqueCode },
+      { numberOfVotesAttained: incVote },
+      { new: true }
+    ).select("numberOfVotesAttained email uniqueCode");
+    ctx.status = 200;
+    ctx.body = updateContestantVote;
   } catch (e) {
     ctx.status = 400;
     ctx.response = "Error placing vote";
   }
 };
 
-export default { donations };
+export default { donations, votings };
