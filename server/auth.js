@@ -4,6 +4,7 @@ import User from "./models/userModel";
 import shortid from "shortid";
 import sendSms from "../util/sms-client";
 import generateShortCode from "../util/generatecode";
+import verifyPaystackResponse from "./middleware/verifyPaystackResponse";
 
 const options = {
   usernameField: "email",
@@ -40,6 +41,12 @@ function localsignup() {
     "local-signup",
     new LocalStrategy(options, async (req, email, password, done) => {
       try {
+        const isVerified = await verifyPaystackResponse(req);
+        if (!isVerified) {
+          //@TODO send notification details to slack
+          done(null, false, "Payment not valid");
+          return;
+        }
         const user = await User.findOne({ email: email });
         const uniquecode = generateShortCode(req.body.firstName, User);
 

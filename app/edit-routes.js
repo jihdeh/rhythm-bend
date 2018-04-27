@@ -1,6 +1,6 @@
 import Donation from "../server/models/donationModel";
 import User from "../server/models/userModel";
-import VerifyPayment from "./transaction/transactionController";
+import verifyPaystackResponse from "../server/middleware/verifyPaystackResponse";
 
 const donations = async ctx => {
   try {
@@ -9,21 +9,12 @@ const donations = async ctx => {
     //sanitize inputs here
     const moldRequest = Object.assign({}, { paymentReference }, { ...body });
 
-    //verify transaction can only be done in prod mode
-    // if(process.env.NODE_ENV === 'production') {
-    const paymentStatus = await VerifyPayment.verify(ctx, true);
-
-    if (
-      paymentStatus.status === false ||
-      paymentStatus.status === "failed" ||
-      paymentStatus.status !== "success" ||
-      paymentStatus.status !== true
-    ) {
+    const isVerified = await verifyPaystackResponse(ctx);
+    if (!isVerified) {
       ctx.status = 404;
       ctx.body = "Payment not valid";
       return;
     }
-    // }
 
     const newDonation = new Donation(moldRequest);
     const saveDonation = await newDonation.save();

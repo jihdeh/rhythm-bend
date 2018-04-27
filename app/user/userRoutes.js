@@ -11,7 +11,7 @@ function register(app) {
   });
 
   router
-    .post("/signup", usercontroller.register)
+    .post("/signup/:reference", usercontroller.register)
     .post("/signin", usercontroller.login)
     .put("/:uid", usercontroller.update)
     .delete("/:uid", usercontroller.delete);

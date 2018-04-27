@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
-
+const shouldRequirePaymentReference = process.env.NODE_ENV === "production";
 const user = mongoose.Schema({
   email: { type: String, required: true },
   password: { salt: String, hash: String },
@@ -12,7 +12,7 @@ const user = mongoose.Schema({
   numberOfVotesAttained: Number,
   hasPaid: Boolean,
   uniqueCode: { type: String, trim: true },
-  paymentReference: { type: String, required: true },
+  paymentReference: { type: String, required: !!shouldRequirePaymentReference },
   about: String,
   state: String,
   country: String
