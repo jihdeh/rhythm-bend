@@ -2,7 +2,7 @@ import crypto from "crypto";
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
 import jwt from "jsonwebtoken";
-import User from "./userModel";
+import User from "../../server/models/userModel";
 
 const SECRET = process.env.AUTH_SECRET;
 

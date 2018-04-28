@@ -1,7 +1,7 @@
 import Router from "koa-router";
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
-import User from "./userModel";
+import User from "../../server/models/userModel";
 import usercontroller from "./userController";
 
 //authentication
@@ -11,7 +11,7 @@ function register(app) {
   });
 
   router
-    .post("/signup", usercontroller.register)
+    .post("/signup/:reference", usercontroller.register)
     .post("/signin", usercontroller.login)
     .put("/:uid", usercontroller.update)
     .delete("/:uid", usercontroller.delete);

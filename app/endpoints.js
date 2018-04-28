@@ -2,6 +2,7 @@ import koa from "koa";
 import koaRouter from "koa-router";
 import bodyParser from "koa-bodyparser";
 import queryRoutes from "./query-routes";
+import editRoutes from "./edit-routes";
 import userRoutes from "./user/userRoutes";
 import transactionRoutes from "./transaction/transactionRoutes";
 import middlewares from "../server/middleware/index";
@@ -14,6 +15,9 @@ api.use(bodyParser());
 
 //middlewares
 middlewares(api);
+
+router.post("/donate/:reference", editRoutes.donations);
+router.post("/vote/:reference", editRoutes.votings);
 
 router.get("/message", queryRoutes.fetchMessage);
 router.get("/throwError", queryRoutes.throwErrorByDefault);

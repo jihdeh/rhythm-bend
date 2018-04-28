@@ -1,7 +1,7 @@
 import log from "./log";
 import util from "util";
 
-export default async function apiErrorHandler(ctx,next) {
+export default (async function apiErrorHandler(ctx, next) {
   try {
     await next();
   } catch (_error) {
@@ -9,30 +9,29 @@ export default async function apiErrorHandler(ctx,next) {
     console.error(_error);
     const {
       status = 500,
-      message = error.stack || 
+      message = error.stack ||
         "Non-standard, nondescript error. Bug a dev to add messages to error objects",
       userMessage
     } = _error;
-    const error = { status, message, userMessage  };
+    const error = { status, message, userMessage };
 
-    this.body = error;
-    this.status = status;
+    ctx.throw(400, error);
 
     if (status >= 500) {
       this.app.emit("error", new Error(message), this);
       log.error(message, {
-        status, 
-        event: "response", 
-        request: this.request.href, 
+        status,
+        event: "response",
+        request: this.request.href,
         error
       });
     } else {
       log.info(message, {
-        status, 
-        event: "response", 
-        request: this.request.href, 
+        status,
+        event: "response",
+        request: this.request.href,
         error
       });
     }
   }
-}
+});
