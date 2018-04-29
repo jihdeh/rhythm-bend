@@ -51,5 +51,7 @@ spec:
         env:
           - name: PROJECT_ID
             value: sounditafrica-200418
+          - name: APP_ENV
+            value: development
           - name: NODE_ENV
             value: development
