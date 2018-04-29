@@ -7,4 +7,3 @@ metadata:
 data:
   PROJECT_ID: sounditafrica-200418
   APP_ENV: production
-  NODE_ENV: development
