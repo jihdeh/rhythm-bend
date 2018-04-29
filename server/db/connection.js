@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export default function(app) {
+  console.log(process.env);
   const url = process.env.DB_URL;
 
   mongoose

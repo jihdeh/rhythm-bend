@@ -32,9 +32,7 @@ const authenticate = (type, ctx) => {
       ctx.status = 400;
       ctx.body = {
         status: "error",
-        data: {
-          message: info
-        }
+        message: info
       };
     }
   })(ctx);
@@ -56,9 +54,7 @@ const response = (user, ctx) => {
     ctx.status = 400;
     ctx.body = {
       status: "error",
-      data: {
-        message: "user not found"
-      }
+      message: "Incorrect email or password"
     };
   }
 };
@@ -67,9 +63,7 @@ const reject = (e, ctx) => {
   ctx.status = 400;
   ctx.body = {
     status: "error",
-    data: {
-      message: e
-    }
+    message: e
   };
 };
 const searchresult = (user, ctx) => {
@@ -107,9 +101,7 @@ const searchresult = (user, ctx) => {
     ctx.status = 400;
     ctx.body = {
       status: "error",
-      data: {
-        message: "user not found"
-      }
+      message: "user not found"
     };
   }
 };

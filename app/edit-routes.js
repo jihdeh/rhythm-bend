@@ -6,13 +6,18 @@ const donations = async ctx => {
   try {
     const { reference: paymentReference } = ctx.params;
     const { body } = ctx.request;
+    if ((!body.name.trim() && !body.amount) || body.amount <= 0) {
+      ctx.status = 404;
+      ctx.body = { message: "Required fields not present" };
+      return;
+    }
     //sanitize inputs here
     const moldRequest = Object.assign({}, { paymentReference }, { ...body });
 
     const isVerified = await verifyPaystackResponse(ctx);
     if (!isVerified) {
       ctx.status = 404;
-      ctx.body = "Payment not valid";
+      ctx.body = { message: "Payment not valid" };
       return;
     }
 
@@ -53,7 +58,7 @@ const votings = async ctx => {
     ctx.body = updateContestantVote;
   } catch (e) {
     ctx.status = 400;
-    ctx.response = "Error placing vote";
+    ctx.response = { message: "Error placing vote" };
   }
 };
 

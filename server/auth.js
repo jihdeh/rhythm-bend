@@ -22,11 +22,11 @@ function localsignin() {
     new LocalStrategy(options, (req, email, password, done) => {
       User.findOne({ email })
         .then(user => {
-          if (!user) return done(null, false, "Incorrect email/password");
+          if (!user) return done(null, false, "Incorrect email or password");
           if (user.hashPassword(password, user.password.salt).hash === user.password.hash) {
             return done(null, user);
           } else {
-            return done(null, false, "Incorrect email/password");
+            return done(null, false, "Incorrect email or password");
           }
         })
         .catch(err => {
