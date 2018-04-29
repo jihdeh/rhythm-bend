@@ -1,4 +1,5 @@
 # Use config map for not-secret configuration data
+# not working atm, to be battled with
 
 apiVersion: v1
 kind: ConfigMap
