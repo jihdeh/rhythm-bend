@@ -76,6 +76,7 @@ const searchresult = (user, ctx) => {
           lastName: user.lastName,
           uniqueCode: user.uniqueCode,
           about: user.about,
+          profilePicture:user.profilePhoto,
           state: user.state,
           country: user.country,
           contestantVideo: user.contestantVideo,
