@@ -1,3 +1,4 @@
+import logger from "koa-logger";
 import koa from "koa";
 import cors from "@koa/cors";
 import forward from "koa-forward-request";
@@ -14,7 +15,10 @@ import auth from "./auth";
 
 function App() {
   const app = new koa();
+
+  app.use(logger());
   app.use(cors());
+
   //sessions
   app.keys = ["super-secret-key"];
   app.use(session(app));
