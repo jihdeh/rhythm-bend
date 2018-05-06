@@ -18,7 +18,10 @@ const authenticate = (type, ctx) => {
               id: user._id,
               firstName: user.firstName,
               lastName: user.lastName,
-              uniquecode: user.uniqueCode
+              uniqueCode: user.uniqueCode,
+              profilePhoto: user.profilePhoto,
+              about: user.about,
+              phoneNumber: user.phoneNumber
             }
           },
           SECRET,
@@ -47,7 +50,10 @@ const response = (user, ctx) => {
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
-        uniquecode: user.uniqueCode
+        uniqueCode: user.uniqueCode,
+        profilePhoto: user.profilePhoto,
+        about: user.about,
+        phoneNumber: user.phoneNumber
       }
     };
   } else if (!user) {
@@ -76,7 +82,7 @@ const searchresult = (user, ctx) => {
           lastName: user.lastName,
           uniqueCode: user.uniqueCode,
           about: user.about,
-          profilePicture:user.profilePhoto,
+          profilePicture: user.profilePhoto,
           state: user.state,
           country: user.country,
           contestantVideo: user.contestantVideo,
