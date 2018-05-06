@@ -19,6 +19,12 @@ function App() {
   app.use(logger());
   app.use(cors());
 
+  //bounce back if not from domain
+  app.use(async (ctx, next) => {
+    console.log(ctx.header.origin);
+    await next();
+  });
+
   //sessions
   app.keys = ["super-secret-key"];
   app.use(session(app));

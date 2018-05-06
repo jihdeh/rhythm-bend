@@ -4,7 +4,6 @@ import cacheControl from "koa-cache-control";
 import apiErrorHandler from "../util/api-error-handler";
 import endpointApi from "../app/endpoints";
 
-
 export default function Api() {
   const api = new koa();
   api.use(apiErrorHandler);
