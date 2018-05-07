@@ -34,12 +34,6 @@ function App() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  //mongoose connection
-  connection(app);
-
-  //seed db
-  seed();
-
   forward(app);
   app.use(mount("/", Frontend())).use(mount("/api", Api()));
   //you will now make api calls with "/api" as default base

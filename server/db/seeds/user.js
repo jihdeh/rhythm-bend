@@ -13,7 +13,6 @@ export default function() {
       firstName: "jim",
       lastName: "zing",
       password: "test",
-      type: "voter",
       phoneNumber: 2348144194590
     },
     {
@@ -21,7 +20,6 @@ export default function() {
       firstName: "kim",
       lastName: "kar",
       password: "test",
-      type: "contestant",
       phoneNumber: 2348144194590
     },
     {
@@ -29,33 +27,26 @@ export default function() {
       firstName: "jake",
       lastName: "mark",
       password: "test",
-      type: "contestant",
-      phoneNumber: 2348144194590
+      phoneNumber: 2348069790405
     }
   ];
 
-  const createDoc = (model, doc) =>
-    new Promise((resolve, reject) =>
-      new model(doc).save((err, saved) => (err ? reject(err) : resolve(saved)))
-    );
-
-  const cleanDB = () => {
+  const cleanDB = async () => {
     log.info("...cleaning the DB");
 
-    var cleanPromises = [User].map(model => model.remove().exec());
+    var cleanPromises = await User.remove({});
 
-    return Promise.all(cleanPromises);
+    return cleanPromises;
   };
 
   const createUsers = async data => {
-    const allusers = await User.find({ type: "contestant" });
     let promises = users.map(async (user, key) => {
       let newuser = new User(user);
       const uniqueCode = await generate(newuser.firstName, User);
-      await sendSms(`+${newuser.phoneNumber}`);
+      // await sendSms(`+${newuser.phoneNumber}`);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
-      if (user.type === "contestant") newuser.uniqueCode = uniqueCode;
-      return newuser.save();
+      newuser.uniqueCode = uniqueCode;
+      return await newuser.save();
     });
 
     return Promise.all(promises)
