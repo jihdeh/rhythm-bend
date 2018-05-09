@@ -18,7 +18,7 @@ const authenticate = (type, ctx) => {
               id: user._id,
               firstName: user.firstName,
               lastName: user.lastName,
-              uniqueCode: user.uniqueCode,
+              username: user.username,
               profilePhoto: user.profilePhoto,
               about: user.about,
               phoneNumber: user.phoneNumber
@@ -50,7 +50,7 @@ const response = (user, ctx) => {
         id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
-        uniqueCode: user.uniqueCode,
+        username: user.username,
         profilePhoto: user.profilePhoto,
         about: user.about,
         phoneNumber: user.phoneNumber
@@ -80,7 +80,7 @@ const searchresult = (user, ctx) => {
         data: {
           firstName: user.firstName,
           lastName: user.lastName,
-          uniqueCode: user.uniqueCode,
+          username: user.username,
           about: user.about,
           profilePicture: user.profilePhoto,
           state: user.state,
@@ -96,7 +96,7 @@ const searchresult = (user, ctx) => {
         data: {
           firstName: user.firstName,
           lastName: user.lastName,
-          uniqueCode: user.uniqueCode,
+          username: user.username,
           about: user.about,
           state: user.state,
           country: user.country,
@@ -136,8 +136,8 @@ exports.delete = async ctx => {
 };
 exports.find = async ctx => {
   try {
-    const uniqueCode = ctx.params.uniqueCode;
-    const user = await User.findOne({ uniqueCode });
+    const username = ctx.params.username;
+    const user = await User.findOne({ username });
     searchresult(user, ctx);
   } catch (e) {
     reject(e, ctx);
