@@ -13,7 +13,6 @@ export default function() {
       lastName: "zing",
       password: "test",
       username: "jincheng",
-      type: "voter",
       phoneNumber: 2348144194590
     },
     {
@@ -22,7 +21,6 @@ export default function() {
       lastName: "kar",
       password: "test",
       username: "jimmyxy",
-      type: "contestant",
       phoneNumber: 2348144194590
     },
     {
@@ -31,7 +29,6 @@ export default function() {
       lastName: "mark",
       password: "test",
       username: "soco",
-      type: "contestant",
       phoneNumber: 2348144194590
     }
   ];
