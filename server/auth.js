@@ -64,7 +64,6 @@ function localsignup() {
               await sendSms(`+${newuser.phoneNumber}`);
               return done(null, saved);
             } catch (err) {
-              console.log(newuser);
               return done(null, false, err);
             }
           } else {
