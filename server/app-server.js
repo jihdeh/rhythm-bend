@@ -43,7 +43,7 @@ function startWorker() {
   //seed db
   seed();
 
-  http.createServer(app.callback()).listen(port);
+  // http.createServer(app.callback()).listen(port);
   https.createServer(options, app.callback()).listen(securePort);
 
   console.info(
