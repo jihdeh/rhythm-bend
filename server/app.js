@@ -5,6 +5,7 @@ import forward from "koa-forward-request";
 import mount from "koa-mount";
 import session from "koa-session";
 import passport from "koa-passport";
+// import enforceHttps from "koa-sslify";
 
 import log from "../util/log";
 import Api from "./api";
@@ -16,14 +17,9 @@ import auth from "./auth";
 function App() {
   const app = new koa();
 
+  // app.use(enforceHttps());
   app.use(logger());
   app.use(cors());
-
-  //bounce back if not from domain
-  app.use(async (ctx, next) => {
-    console.log(ctx.header.origin);
-    await next();
-  });
 
   //sessions
   app.keys = ["super-secret-key"];

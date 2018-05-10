@@ -9,6 +9,13 @@ export default function Api() {
   api.use(apiErrorHandler);
 
   api.use(cacheControl({ maxage: 10 * 1000 }));
+  //bounce back if not from domain
+  api.use(async (ctx, next) => {
+    console.log(ctx.header.host, ctx.header.origin);
+    await next();
+    return;
+  });
+
   api.use(mount("/", endpointApi));
   api.use(function terminator() {
     return; // Do not continue past the API request handlers into the frontend request handlers
