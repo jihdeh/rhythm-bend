@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sounditafrica-backend
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: service.soundit.africa
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: s1
+          servicePort: 443
+      - path: /bar
+        backend:
+          serviceName: s2
+          servicePort: 80
