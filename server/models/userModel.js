@@ -13,10 +13,11 @@ const user = mongoose.Schema({
   contestantVideo: [String],
   numberOfVotesAttained: { type: String, default: 0 },
   hasPaid: Boolean,
-  uniqueCode: { type: String, trim: true },
+  username: { type: String, trim: true, required: true },
   paymentReference: { type: String, required: !!shouldRequirePaymentReference },
   about: String,
   state: String,
+  active: { type: Boolean, required: true },
   country: String
 });
 

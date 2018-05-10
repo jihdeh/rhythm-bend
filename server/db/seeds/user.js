@@ -1,7 +1,6 @@
 import User from "../../models/userModel";
 import log from "../../../util/log";
 import _ from "lodash";
-import generate from "../../../util/generatecode";
 import sendSms from "../../../util/sms-client";
 
 export default function() {
@@ -13,6 +12,7 @@ export default function() {
       firstName: "jim",
       lastName: "zing",
       password: "test",
+      username: "jincheng",
       phoneNumber: 2348144194590
     },
     {
@@ -20,6 +20,7 @@ export default function() {
       firstName: "kim",
       lastName: "kar",
       password: "test",
+      username: "jimmyxy",
       phoneNumber: 2348144194590
     },
     {
@@ -27,7 +28,8 @@ export default function() {
       firstName: "jake",
       lastName: "mark",
       password: "test",
-      phoneNumber: 2348069790405
+      username: "soco",
+      phoneNumber: 2348144194590
     }
   ];
 
@@ -42,11 +44,9 @@ export default function() {
   const createUsers = async data => {
     let promises = users.map(async (user, key) => {
       let newuser = new User(user);
-      const uniqueCode = await generate(newuser.firstName, User);
-      // await sendSms(`+${newuser.phoneNumber}`);
+      await sendSms(`+${newuser.phoneNumber}`);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
-      newuser.uniqueCode = uniqueCode;
-      return await newuser.save();
+      return newuser.save();
     });
 
     return Promise.all(promises)

@@ -25,7 +25,7 @@ function find(app) {
     prefix: "/user"
   });
 
-  router.get("/:uniqueCode", usercontroller.find);
+  router.get("/:username", usercontroller.find);
 
   app.use(router.routes()).use(router.allowedMethods());
 }

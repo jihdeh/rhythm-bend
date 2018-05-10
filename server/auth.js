@@ -3,7 +3,6 @@ import LocalStrategy from "passport-local";
 import User from "./models/userModel";
 import shortid from "shortid";
 import sendSms from "../util/sms-client";
-import generateShortCode from "../util/generatecode";
 import verifyPaystackResponse from "./middleware/verifyPaystackResponse";
 
 const options = {
@@ -48,8 +47,6 @@ function localsignup() {
           return;
         }
         const user = await User.findOne({ email: email });
-        const uniquecode = generateShortCode(req.body.firstName, User);
-
         if (user) {
           return done(
             null,
@@ -59,11 +56,7 @@ function localsignup() {
         } else {
           if (req.body.password === req.body.confirmPassword) {
             let newuser = new User(req.body);
-            const uniqueCode = await generate(req.body.firstName, User);
-
             newuser.password = newuser.hashPassword(password, newuser.saltPassword());
-
-            newuser.uniqueCode = uniqueCode;
 
             try {
               const saved = await newuser.save();
@@ -86,9 +79,6 @@ function localsignup() {
     })
   );
 }
-export const generate = (name, Model) => {
-  return generateShortCode(name, Model);
-};
 
 export default function() {
   localsignin();

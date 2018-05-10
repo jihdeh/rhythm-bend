@@ -36,9 +36,9 @@ const donations = async ctx => {
 const votings = async ctx => {
   try {
     // /api/vote/841736995?uniqueCode=jakeRJWL&voteCount=2 url sample.
-    const uniqueCode = ctx.query.uniqueCode;
+    const username = ctx.query.username;
     const voteCount = ctx.query.voteCount;
-    const findContestant = await User.findOne({ uniqueCode }).select("numberOfVotesAttained");
+    const findContestant = await User.findOne({ username }).select("numberOfVotesAttained");
 
     const incVote = +findContestant.numberOfVotesAttained + +voteCount;
 
@@ -50,10 +50,10 @@ const votings = async ctx => {
       return;
     }
     const updateContestantVote = await User.findOneAndUpdate(
-      { uniqueCode },
+      { username },
       { numberOfVotesAttained: incVote },
       { new: true }
-    ).select("numberOfVotesAttained email uniqueCode");
+    ).select("numberOfVotesAttained email username");
     ctx.status = 200;
     ctx.body = updateContestantVote;
   } catch (e) {
