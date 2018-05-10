@@ -13,6 +13,7 @@ export default function() {
       lastName: "zing",
       password: "test",
       username: "jincheng",
+      active: false,
       phoneNumber: 2348144194590
     },
     {
@@ -21,6 +22,7 @@ export default function() {
       lastName: "kar",
       password: "test",
       username: "jimmyxy",
+      active: false,
       phoneNumber: 2348144194590
     },
     {
@@ -29,6 +31,7 @@ export default function() {
       lastName: "mark",
       password: "test",
       username: "soco",
+      active: false,
       phoneNumber: 2348144194590
     }
   ];
