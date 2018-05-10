@@ -13,7 +13,8 @@ export default function() {
       lastName: "zing",
       password: "test",
       username: "jincheng",
-      phoneNumber: 2348144194590
+      phoneNumber: 2348144194590,
+      active:false
     },
     {
       email: "jimmy@x.com",
@@ -21,7 +22,8 @@ export default function() {
       lastName: "kar",
       password: "test",
       username: "jimmyxy",
-      phoneNumber: 2348144194590
+      phoneNumber: 2348144194590,
+      active:false
     },
     {
       email: "xoko@x.com",
@@ -29,7 +31,8 @@ export default function() {
       lastName: "mark",
       password: "test",
       username: "soco",
-      phoneNumber: 2348144194590
+      phoneNumber: 2348144194590,
+      active:false
     }
   ];
 
@@ -46,6 +49,7 @@ export default function() {
       let newuser = new User(user);
       await sendSms(`+${newuser.phoneNumber}`);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
+      newuser.active = true;
       return newuser.save();
     });
 

@@ -57,12 +57,14 @@ function localsignup() {
           if (req.body.password === req.body.confirmPassword) {
             let newuser = new User(req.body);
             newuser.password = newuser.hashPassword(password, newuser.saltPassword());
-
+            newuser.active = true;
+            
             try {
               const saved = await newuser.save();
               await sendSms(`+${newuser.phoneNumber}`);
               return done(null, saved);
             } catch (err) {
+              console.log(newuser);
               return done(null, false, err);
             }
           } else {
