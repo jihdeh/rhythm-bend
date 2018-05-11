@@ -49,6 +49,7 @@ export default function() {
       let newuser = new User(user);
       await sendSms(`+${newuser.phoneNumber}`);
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
+      newuser.active = true;
       return newuser.save();
     });
 
