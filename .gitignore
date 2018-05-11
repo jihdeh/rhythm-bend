@@ -10,3 +10,8 @@ npm-debug.log
 .svn
 .env
 .prettierrc.js
+.env-secrets.yaml
+.env-configmap.yaml
+app-backend.yaml
+app-ingress.yaml
+app-service.yaml

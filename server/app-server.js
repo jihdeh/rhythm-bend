@@ -8,14 +8,6 @@ import connection from "./db/connection";
 import seed from "./db/seeds/user";
 
 import http from "http";
-import https from "https";
-import fs from "fs";
-
-const options = {
-  ca: fs.readFileSync("./config/STAR_soundit_africa.ca-bundle"),
-  key: fs.readFileSync("./config/server.key"),
-  cert: fs.readFileSync("./config/STAR_soundit_africa.crt")
-};
 
 function startMaster() {
   const workforce = process.env.WEB_CONCURRENCY || os.cpus().length;
@@ -43,9 +35,7 @@ function startWorker() {
   //seed db
   seed();
 
-  // http.createServer(app.callback()).listen(port);
   app.listen(port);
-  // https.createServer(options, app.callback()).listen(securePort);
 
   console.info(
     `==> ✅  Server is listening in ${process.env.NODE_ENV || "development"} mode, with worker ${
