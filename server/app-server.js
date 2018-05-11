@@ -44,7 +44,8 @@ function startWorker() {
   seed();
 
   // http.createServer(app.callback()).listen(port);
-  https.createServer(options, app.callback()).listen(securePort);
+  app.listen(port);
+  // https.createServer(options, app.callback()).listen(securePort);
 
   console.info(
     `==> ✅  Server is listening in ${process.env.NODE_ENV || "development"} mode, with worker ${
