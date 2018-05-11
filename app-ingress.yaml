@@ -7,8 +7,11 @@ spec:
   - host: service.soundit.africa
     http:
       paths:
-      - backend:
+      - path: /*
+        backend:
           serviceName: sounditafrica-backend
           servicePort: 80
   tls:
-  - secretName: env-secrets
+  - hosts:
+    - service.soundit.africa
+    secretName: env-secrets
