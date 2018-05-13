@@ -7,8 +7,6 @@ import App from "./app";
 import connection from "./db/connection";
 import seed from "./db/seeds/user";
 
-import http from "http";
-
 function startMaster() {
   const workforce = process.env.WEB_CONCURRENCY || os.cpus().length;
 

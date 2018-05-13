@@ -1,0 +1,11 @@
+# Use config map for not-secret configuration data
+# not working atm, to be battled with
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-configmap
+data:
+  PROJECT_ID: sounditafrica-200418
+  APP_ENV: production
+  NODE_ENV: development

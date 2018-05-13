@@ -17,7 +17,7 @@ const user = mongoose.Schema({
   paymentReference: { type: String, required: !!shouldRequirePaymentReference },
   about: String,
   state: String,
-  active: { type: Boolean, required: true,default:false },
+  active: { type: Boolean, required: true, default: false },
   country: String
 });
 

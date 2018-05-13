@@ -1,5 +1,6 @@
 import Donation from "../server/models/donationModel";
 import User from "../server/models/userModel";
+import Status from "../server/models/statusModel";
 import verifyPaystackResponse from "../server/middleware/verifyPaystackResponse";
 
 const donations = async ctx => {
@@ -35,7 +36,7 @@ const donations = async ctx => {
 
 const votings = async ctx => {
   try {
-    // /api/vote/841736995?uniqueCode=jakeRJWL&voteCount=2 url sample.
+    // /api/vote/841736995?username=jakeRJWL&voteCount=2 url sample.
     const username = ctx.query.username;
     const voteCount = ctx.query.voteCount;
     const findContestant = await User.findOne({ username }).select("numberOfVotesAttained");
@@ -62,4 +63,23 @@ const votings = async ctx => {
   }
 };
 
-export default { donations, votings };
+const updateOpenStatus = async ctx => {
+  try {
+    //http://localhost:6500/api/openStatus?type=votingOpen&state=false
+    const type = ctx.query.type;
+    const state = ctx.query.state;
+    const getStatuses = await Status.findOneAndUpdate(
+      {},
+      { [type]: state },
+      {
+        upsert: true
+      }
+    );
+    ctx.body = "Successfully set";
+  } catch (error) {
+    ctx.status = 404;
+    ctx.body = { message: "Error setting status" };
+  }
+};
+
+export default { donations, votings, updateOpenStatus };

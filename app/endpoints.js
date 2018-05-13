@@ -19,8 +19,10 @@ middlewares(api);
 router.post("/donate/:reference", editRoutes.donations);
 router.post("/vote/:reference", editRoutes.votings);
 
+router.put("/openStatus", editRoutes.updateOpenStatus);
+
 router.get("/message", queryRoutes.fetchMessage);
-router.get("/throwError", queryRoutes.throwErrorByDefault);
+router.get("/openStatus", queryRoutes.getOpenStatus);
 
 userRoutes(api);
 transactionRoutes(api);
