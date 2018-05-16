@@ -137,7 +137,7 @@ exports.delete = async ctx => {
 exports.find = async ctx => {
   try {
     const username = ctx.params.username;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }).select("-password");
     searchresult(user, ctx);
   } catch (e) {
     reject(e, ctx);
