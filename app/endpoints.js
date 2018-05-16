@@ -23,6 +23,7 @@ router.put("/openStatus", editRoutes.updateOpenStatus);
 
 router.get("/message", queryRoutes.fetchMessage);
 router.get("/openStatus", queryRoutes.getOpenStatus);
+router.get("/searchContestant", queryRoutes.findContestant);
 
 userRoutes(api);
 transactionRoutes(api);

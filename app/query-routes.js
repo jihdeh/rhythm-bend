@@ -1,5 +1,6 @@
 import log from "../util/log";
 import Status from "../server/models/statusModel";
+import User from "../server/models/userModel";
 
 function fetchMessage(ctx) {
   ctx.body = {
@@ -19,4 +20,20 @@ const getOpenStatus = async ctx => {
   }
 };
 
-export default { fetchMessage, getOpenStatus };
+const findContestant = async ctx => {
+  try {
+    const getResult = await User.find({
+      username: { $regex: ctx.query.username, $options: "i" }
+    })
+      .select("-password -numberOfVotesAttained")
+      .lean()
+      .exec();
+    ctx.body = getResult;
+  } catch (error) {
+    ctx.status = 404;
+    console.log(error);
+    ctx.body = { message: "Error getting contestant profile" };
+  }
+};
+
+export default { fetchMessage, getOpenStatus, findContestant };
