@@ -75,35 +75,7 @@ const reject = (e, ctx) => {
 const searchresult = (user, ctx) => {
   if (user) {
     ctx.status = 200;
-    if (ctx.request.body.admin) {
-      ctx.body = {
-        data: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          username: user.username,
-          about: user.about,
-          profilePicture: user.profilePhoto,
-          state: user.state,
-          country: user.country,
-          contestantVideo: user.contestantVideo,
-          email: user.email,
-          numberOfVotesAttained: user.numberOfVotesAttained,
-          hasPaid: user.hasPaid
-        }
-      };
-    } else {
-      ctx.body = {
-        data: {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          username: user.username,
-          about: user.about,
-          state: user.state,
-          country: user.country,
-          contestantVideo: user.contestantVideo
-        }
-      };
-    }
+    ctx.body = user;
   } else {
     ctx.status = 400;
     ctx.body = {
@@ -134,11 +106,21 @@ exports.delete = async ctx => {
     reject(e, ctx);
   }
 };
+
 exports.find = async ctx => {
   try {
     const username = ctx.params.username;
-    const user = await User.findOne({ username }).select("-password -numberOfVotesAttained");
-    searchresult(user, ctx);
+    if (!ctx.query.admin) {
+      const user = await User.findOne({ username }).select(
+        "-password -numberOfVotesAttained -phoneNumber -email"
+      );
+      searchresult(user, ctx);
+      return;
+    } else {
+      const user = await User.findOne({ username }).select("-password");
+      searchresult(user, ctx);
+      return;
+    }
   } catch (e) {
     reject(e, ctx);
   }

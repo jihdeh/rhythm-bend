@@ -15,10 +15,14 @@ const user = mongoose.Schema({
   hasPaid: Boolean,
   username: { type: String, trim: true, required: true, index: true },
   paymentReference: { type: String, required: !!shouldRequirePaymentReference },
-  about: String,
-  state: String,
+  about: { type: String, index: true },
+  state: { type: String, index: true },
   active: { type: Boolean, required: true, default: false },
-  country: String,
+  country: { type: String, index: true },
+  facebook: { type: String, index: true },
+  twitter: { type: String, index: true },
+  instagram: { type: String, index: true },
+  youtube: { type: String, index: true },
   random: {
     type: [Number],
     default: function() {
