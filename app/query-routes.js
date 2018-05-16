@@ -25,7 +25,8 @@ const findContestant = async ctx => {
   try {
     if (username) {
       const getResult = await User.find({
-        username: { $regex: ctx.query.username, $options: "i" }
+        username: { $regex: ctx.query.username, $options: "i" },
+        active: true
       })
         .select("-password -numberOfVotesAttained -phoneNumber -email")
         .lean()
@@ -33,7 +34,7 @@ const findContestant = async ctx => {
       ctx.body = getResult;
       return;
     } else {
-      const getResult = await User.find({})
+      const getResult = await User.find({ active: true })
         .where("random")
         .near([Math.random(), Math.random()])
         .select("-password -numberOfVotesAttained -phoneNumber -email")
