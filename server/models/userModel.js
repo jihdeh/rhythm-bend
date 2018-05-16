@@ -18,7 +18,14 @@ const user = mongoose.Schema({
   about: String,
   state: String,
   active: { type: Boolean, required: true, default: false },
-  country: String
+  country: String,
+  random: {
+    type: [Number],
+    default: function() {
+      return [Math.random(), Math.random()];
+    },
+    index: "2d"
+  }
 });
 
 user.methods.saltPassword = () => crypto.randomBytes(128).toString("hex");

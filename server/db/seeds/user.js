@@ -14,7 +14,10 @@ export default function() {
       password: "test",
       username: "jincheng",
       active: false,
-      phoneNumber: 2348144194590
+      contestantVideo: ["https://www.youtube.com/embed/-oCCnxBos10"],
+      phoneNumber: 2348144194590,
+      state: "Lagos",
+      country: "Nigeria"
     },
     {
       email: "jimmy@x.com",
@@ -22,17 +25,23 @@ export default function() {
       lastName: "kar",
       password: "test",
       username: "jimmyxy",
+      contestantVideo: ["https://www.youtube.com/embed/-oCCnxBos10"],
       active: false,
-      phoneNumber: 2348144194590
+      phoneNumber: 2348069790405,
+      state: "Lagos",
+      country: "Kenya"
     },
     {
       email: "xoko@x.com",
       firstName: "jake",
       lastName: "mark",
       password: "test",
+      contestantVideo: ["https://www.youtube.com/embed/-oCCnxBos10"],
       username: "soco",
       active: false,
-      phoneNumber: 2348144194590
+      phoneNumber: 2348144194590,
+      state: "Lagos",
+      country: "Brazil"
     }
   ];
 
@@ -47,7 +56,11 @@ export default function() {
   const createUsers = async data => {
     let promises = users.map(async (user, key) => {
       let newuser = new User(user);
-      await sendSms(`+${newuser.phoneNumber}`);
+      try {
+        const cv = await sendSms(`+${newuser.phoneNumber}`);
+      } catch (e) {
+        console.log(e, "as");
+      }
       newuser.password = newuser.hashPassword(user.password, newuser.saltPassword());
       newuser.active = true;
       return newuser.save();

@@ -21,14 +21,27 @@ const getOpenStatus = async ctx => {
 };
 
 const findContestant = async ctx => {
+  const username = ctx.query.username;
   try {
-    const getResult = await User.find({
-      username: { $regex: ctx.query.username, $options: "i" }
-    })
-      .select("-password -numberOfVotesAttained")
-      .lean()
-      .exec();
-    ctx.body = getResult;
+    if (username) {
+      const getResult = await User.find({
+        username: { $regex: ctx.query.username, $options: "i" }
+      })
+        .select("-password -numberOfVotesAttained")
+        .lean()
+        .exec();
+      ctx.body = getResult;
+      return;
+    } else {
+      const getResult = await User.find({})
+        .where("random")
+        .near([Math.random(), Math.random()])
+        .select("-password -numberOfVotesAttained")
+        .lean()
+        .exec();
+      ctx.body = getResult;
+      return;
+    }
   } catch (error) {
     ctx.status = 404;
     console.log(error);
