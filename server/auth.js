@@ -58,7 +58,7 @@ function localsignup() {
             let newuser = new User(req.body);
             newuser.password = newuser.hashPassword(password, newuser.saltPassword());
             newuser.active = true;
-            
+
             try {
               const saved = await newuser.save();
               await sendSms(`+${newuser.phoneNumber}`);

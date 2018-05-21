@@ -9,20 +9,13 @@ const SECRET = process.env.AUTH_SECRET;
 const authenticate = (type, ctx) => {
   return passport.authenticate(type, (err, user, info, status) => {
     if (user) {
+      user.password = undefined;
+      user.numberOfVotesAttained = undefined;
       ctx.status = 200;
       ctx.body = {
         data: jwt.sign(
           {
-            token: {
-              email: user.email,
-              id: user._id,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              username: user.username,
-              profilePhoto: user.profilePhoto,
-              about: user.about,
-              phoneNumber: user.phoneNumber
-            }
+            token: user
           },
           SECRET,
           {
@@ -44,18 +37,7 @@ const authenticate = (type, ctx) => {
 const response = (user, ctx) => {
   if (user) {
     ctx.status = 200;
-    ctx.body = {
-      data: {
-        email: user.email,
-        id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        profilePhoto: user.profilePhoto,
-        about: user.about,
-        phoneNumber: user.phoneNumber
-      }
-    };
+    ctx.body = user;
   } else if (!user) {
     ctx.status = 400;
     ctx.body = {
@@ -91,7 +73,9 @@ exports.register = async ctx => authenticate("local-signup", ctx);
 
 exports.update = async ctx => {
   try {
-    const user = await User.findByIdAndUpdate(ctx.params.uid, ctx.request.body, { new: true });
+    const user = await User.findOneAndUpdate({ username: ctx.params.uid }, ctx.request.body, {
+      new: true
+    }).select("-password -numberOfVotesAttained -_id -__v");
     response(user, ctx);
   } catch (e) {
     reject(e, ctx);
@@ -112,7 +96,7 @@ exports.find = async ctx => {
     const username = ctx.params.username;
     if (!ctx.query.admin) {
       const user = await User.findOne({ username }).select(
-        "-password -numberOfVotesAttained -phoneNumber -email"
+        "-password -numberOfVotesAttained -phoneNumber -email -_id -__v"
       );
       searchresult(user, ctx);
       return;
