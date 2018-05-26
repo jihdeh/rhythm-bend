@@ -1,6 +1,8 @@
 import koa from "koa";
 import koaRouter from "koa-router";
 import queryRoutes from "./query-routes";
+import koaBody from "koa-body";
+import bodyParser from "koa-bodyParser";
 import editRoutes from "./edit-routes";
 import userRoutes from "./user/userRoutes";
 import transactionRoutes from "./transaction/transactionRoutes";
@@ -8,6 +10,9 @@ import middlewares from "../server/middleware/index";
 
 const api = new koa();
 const router = koaRouter();
+
+api.use(bodyParser());
+
 //middlewares
 middlewares(api);
 
@@ -16,7 +21,14 @@ router.post("/vote/:reference", editRoutes.votings);
 
 router.put("/openStatus", editRoutes.updateOpenStatus);
 
-router.put("/uploadProfileImage", editRoutes.uploadProfileImage);
+router.put(
+  "/uploadProfileImage",
+  koaBody({
+    multipart: true,
+    formLimit: 3
+  }),
+  editRoutes.uploadProfileImage
+);
 
 router.get("/message", queryRoutes.fetchMessage);
 router.get("/openStatus", queryRoutes.getOpenStatus);

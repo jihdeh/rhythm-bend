@@ -4,6 +4,12 @@ import User from "../server/models/userModel";
 import Status from "../server/models/statusModel";
 import verifyPaystackResponse from "../server/middleware/verifyPaystackResponse";
 
+Cloudinary.config({
+  cloud_name: "soundit-africa",
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 const donations = async ctx => {
   try {
     const { reference: paymentReference } = ctx.params;
@@ -84,18 +90,15 @@ const updateOpenStatus = async ctx => {
 };
 
 const uploadProfileImage = async ctx => {
+  // content-type: multipart/from
+  // username, image as file
   try {
-    const { image, username } = ctx.request.body;
-    console.log(image);
-    Cloudinary.uploader.upload(
-      image,
-      result => {
-        console.log(result);
-      },
-      {
-        public_id: username
-      }
-    );
+    const { fields: { username }, files: { image: { path } } } = ctx.request.body;
+    const upload = await Cloudinary.v2.uploader.upload(path, {
+      public_id: username,
+      faces: true
+    });
+    ctx.body = upload;
   } catch (error) {
     ctx.status = 404;
     ctx.body = { message: "Error updating Profile Image" };
