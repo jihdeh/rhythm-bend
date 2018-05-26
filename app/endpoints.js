@@ -2,7 +2,7 @@ import koa from "koa";
 import koaRouter from "koa-router";
 import queryRoutes from "./query-routes";
 import koaBody from "koa-body";
-import bodyParser from "koa-bodyParser";
+import bodyParser from "koa-bodyparser";
 import editRoutes from "./edit-routes";
 import userRoutes from "./user/userRoutes";
 import transactionRoutes from "./transaction/transactionRoutes";

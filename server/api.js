@@ -1,7 +1,7 @@
 import mount from "koa-mount";
 import koa from "koa";
 import cacheControl from "koa-cache-control";
-import bodyParser from "koa-bodyParser";
+import bodyParser from "koa-bodyparser";
 import apiErrorHandler from "../util/api-error-handler";
 import endpointApi from "../app/endpoints";
 
