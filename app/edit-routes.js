@@ -105,4 +105,9 @@ const uploadProfileImage = async ctx => {
   }
 };
 
-export default { donations, votings, updateOpenStatus, uploadProfileImage };
+export default {
+  donations,
+  votings,
+  updateOpenStatus,
+  uploadProfileImage
+};
