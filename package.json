@@ -13,10 +13,11 @@
     "babel-preset-env": "1.6.1",
     "babel-preset-react": "6.24.1",
     "chai": "^4.1.2",
+    "cloudinary": "^1.11.0",
     "dotenv": "^5.0.1",
     "jsonwebtoken": "^8.2.1",
     "koa": "^2.5.1",
-    "koa-bodyparser": "^4.2.0",
+    "koa-bodyparser": "^4.2.1",
     "koa-cache-control": "^2.0.0",
     "koa-forward-request": "^0.8.0",
     "koa-logger": "^3.2.0",
@@ -51,6 +52,10 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/jihdeh/simple-node.git"
+  },
+  "engines": {
+    "node": ">=8.9.x",
+    "npm": ">=6.0.x"
   },
   "keywords": [
     "simple",

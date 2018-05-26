@@ -1,6 +1,5 @@
 import koa from "koa";
 import koaRouter from "koa-router";
-import bodyParser from "koa-bodyparser";
 import queryRoutes from "./query-routes";
 import editRoutes from "./edit-routes";
 import userRoutes from "./user/userRoutes";
@@ -9,10 +8,6 @@ import middlewares from "../server/middleware/index";
 
 const api = new koa();
 const router = koaRouter();
-
-// body parser
-api.use(bodyParser());
-
 //middlewares
 middlewares(api);
 
@@ -20,6 +15,8 @@ router.post("/donate/:reference", editRoutes.donations);
 router.post("/vote/:reference", editRoutes.votings);
 
 router.put("/openStatus", editRoutes.updateOpenStatus);
+
+router.put("/uploadProfileImage", editRoutes.uploadProfileImage);
 
 router.get("/message", queryRoutes.fetchMessage);
 router.get("/openStatus", queryRoutes.getOpenStatus);

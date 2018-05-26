@@ -96,7 +96,7 @@ exports.find = async ctx => {
     const username = ctx.params.username;
     if (!ctx.query.admin) {
       const user = await User.findOne({ username }).select(
-        "-password -numberOfVotesAttained -phoneNumber -_id -__v"
+        "-password -numberOfVotesAttained -_id -__v"
       );
       searchresult(user, ctx);
       return;

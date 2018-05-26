@@ -1,3 +1,4 @@
+import Cloudinary from "cloudinary";
 import Donation from "../server/models/donationModel";
 import User from "../server/models/userModel";
 import Status from "../server/models/statusModel";
@@ -82,4 +83,23 @@ const updateOpenStatus = async ctx => {
   }
 };
 
-export default { donations, votings, updateOpenStatus };
+const uploadProfileImage = async ctx => {
+  try {
+    const { image, username } = ctx.request.body;
+    console.log(image);
+    Cloudinary.uploader.upload(
+      image,
+      result => {
+        console.log(result);
+      },
+      {
+        public_id: username
+      }
+    );
+  } catch (error) {
+    ctx.status = 404;
+    ctx.body = { message: "Error updating Profile Image" };
+  }
+};
+
+export default { donations, votings, updateOpenStatus, uploadProfileImage };
