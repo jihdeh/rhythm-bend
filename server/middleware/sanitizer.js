@@ -1,8 +1,14 @@
 import sanitizeHtml from "sanitize-html";
 
 const sanitizer = async (ctx, next) => {
-  ctx.request.body = sanitizeHtml(ctx.request.body);
-  ctx.query = sanitizeHtml(ctx.query);
+  if (ctx.request.body) {
+    const { body } = ctx.request;
+    const mykeys = Object.keys(body);
+
+    mykeys.forEach(key => {
+      ctx.request.body[`${key}`] = sanitizeHtml(ctx.request.body[`${key}`]);
+    });
+  }
   await next();
 };
 

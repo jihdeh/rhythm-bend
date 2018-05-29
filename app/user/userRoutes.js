@@ -13,11 +13,6 @@ function register(app) {
   router
     .post("/signup/:reference", usercontroller.register)
     .post("/signin", usercontroller.login)
-    .post("/test", async ctx => {
-      console.log("hey", ctx.request.body);
-      ctx.status = 200;
-      ctx.body = ctx.request.body;
-    })
     .put("/:uid", usercontroller.update)
     .delete("/:uid", usercontroller.delete);
 
