@@ -1,8 +1,9 @@
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
 import User from "./models/userModel";
-import shortid from "shortid";
 import sendSms from "../util/sms-client";
+import Status from "./models/statusModel";
+
 import verifyPaystackResponse from "./middleware/verifyPaystackResponse";
 
 const options = {
@@ -40,6 +41,13 @@ function localsignup() {
     "local-signup",
     new LocalStrategy(options, async (req, email, password, done) => {
       try {
+        const getRegistrationStatus = await Status.findOne({ registrationOpen: true });
+        if (!getRegistrationStatus) {
+          ctx.status = 400;
+          ctx.body = { message: "Registration closed." };
+          return;
+        }
+
         const isVerified = await verifyPaystackResponse(req);
         if (!isVerified) {
           //@TODO send notification details to slack

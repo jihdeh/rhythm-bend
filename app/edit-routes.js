@@ -62,9 +62,8 @@ const votings = async ctx => {
       ctx.body = "Payment not valid";
       return;
     }
-    const getVotingStatus = await Status.find({ votingOpen: true });
-    console.log(getVotingStatus);
-    if (getVotingStatus) {
+    const getVotingStatus = await Status.findOne({ votingOpen: true });
+    if (!getVotingStatus) {
       ctx.status = 400;
       ctx.body = { message: "Voting closed." };
       return;
