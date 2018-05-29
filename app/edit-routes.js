@@ -109,7 +109,16 @@ const uploadProfileImage = async ctx => {
       public_id: username,
       faces: true
     });
-    ctx.body = upload;
+    if (upload) {
+      const updateProfile = await User.findOneAndUpdate(
+        { username },
+        { profilePhoto: upload.secure_url }
+      );
+      ctx.body = upload;
+    } else {
+      ctx.status = 404;
+      ctx.body = { message: "photo not updated" };
+    }
   } catch (error) {
     ctx.status = 404;
     ctx.body = { message: "Error updating Profile Image" };
