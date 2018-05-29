@@ -47,6 +47,11 @@ const votings = async ctx => {
     const username = ctx.query.username;
     const voteCount = ctx.query.voteCount;
     const findContestant = await User.findOne({ username }).select("numberOfVotesAttained");
+    if (!findContestant) {
+      ctx.status = 404;
+      ctx.body = { message: "Username not found" };
+      return;
+    }
 
     const incVote = +findContestant.numberOfVotesAttained + +voteCount;
 
@@ -55,6 +60,13 @@ const votings = async ctx => {
     if (!isVerified) {
       ctx.status = 404;
       ctx.body = "Payment not valid";
+      return;
+    }
+    const getVotingStatus = await Status.find({ votingOpen: true });
+    console.log(getVotingStatus);
+    if (getVotingStatus) {
+      ctx.status = 400;
+      ctx.body = { message: "Voting closed." };
       return;
     }
     const updateContestantVote = await User.findOneAndUpdate(
