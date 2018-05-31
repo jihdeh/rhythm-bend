@@ -30,9 +30,10 @@ function startWorker() {
   //mongoose connection
   connection(app);
 
+if(process.env.NODE_ENV !== 'production') {
   //seed db
-  seed();
-
+  // seed();
+}
   app.listen(port);
 
   console.info(
