@@ -30,14 +30,15 @@ function startWorker() {
   //mongoose connection
   connection(app);
 
-if(process.env.NODE_ENV !== 'production') {
+  console.log(process.env);
+if(process.env.APP_ENV !== 'production') {
   //seed db
   // seed();
 }
   app.listen(port);
 
   console.info(
-    `==> ✅  Server is listening in ${process.env.NODE_ENV || "development"} mode, with worker ${
+    `==> ✅  Server is listening in ${process.env.APP_ENV || "development"} mode, with worker ${
       process.pid
     }`
   );
@@ -46,7 +47,7 @@ if(process.env.NODE_ENV !== 'production') {
     process.send("online");
   }
 } // Not enough memory on free heroku for fork mode
-if (cluster.isMaster && process.env.NODE_ENV !== "development") {
+if (cluster.isMaster && process.env.APP_ENV !== "development") {
   startMaster();
 } else {
   startWorker();
