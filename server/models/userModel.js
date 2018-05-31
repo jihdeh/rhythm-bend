@@ -10,7 +10,7 @@ const user = mongoose.Schema({
   lastName: { type: String, required: true, trim: true, index: true },
   phoneNumber: { type: String, required: true, index: true },
   profilePhoto: String,
-  contestantVideo: [String],
+  contestantVideo: [],
   numberOfVotesAttained: { type: String, default: 0 },
   hasPaid: Boolean,
   username: { type: String, trim: true, required: true, index: true },

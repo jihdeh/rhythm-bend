@@ -26,6 +26,7 @@ const findContestant = async ctx => {
     if (username) {
       const getResult = await User.find({
         username: { $regex: ctx.query.username, $options: "i" },
+        contestantVideo: { $size: 1 },
         active: true
       })
         .select("-password -numberOfVotesAttained -phoneNumber -email")
