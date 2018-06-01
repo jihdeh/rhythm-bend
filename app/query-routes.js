@@ -35,7 +35,7 @@ const findContestant = async ctx => {
       ctx.body = getResult;
       return;
     } else {
-      const getResult = await User.find({ active: true })
+      const getResult = await User.find({ active: true, contestantVideo: { $size: 1 } })
         .where("random")
         .near([Math.random(), Math.random()])
         .select("-password -numberOfVotesAttained -phoneNumber -email")
