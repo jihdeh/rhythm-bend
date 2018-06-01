@@ -29,8 +29,8 @@ function startWorker() {
 
   //mongoose connection
   connection(app);
-  console.log(process.env);
-  if(process.env.APP_ENV !== 'production') {
+
+  if (process.env.APP_ENV !== "production") {
     //seed db
     // seed();
   }

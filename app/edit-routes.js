@@ -125,9 +125,27 @@ const uploadProfileImage = async ctx => {
   }
 };
 
+const updatePassword = async ctx => {
+  const { password, username } = ctx.request.body;
+  if (!password || !username) {
+    ctx.status = 400;
+    ctx.body = { message: "Please provide required fields" };
+  }
+  try {
+    let newuser = new User();
+    let hashPass = newuser.hashPassword(password, newuser.saltPassword());
+    const findUserAndUpdate = await User.findOneAndUpdate({ username }, { password: hashPass });
+    ctx.body = "Successfully Updated Password";
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = { message: error };
+  }
+};
+
 export default {
   donations,
   votings,
   updateOpenStatus,
-  uploadProfileImage
+  uploadProfileImage,
+  updatePassword
 };
