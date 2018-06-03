@@ -13,6 +13,7 @@ const user = mongoose.Schema({
   contestantVideo: Array,
   numberOfVotesAttained: { type: String, default: 0 },
   hasPaid: Boolean,
+  permission: Array,
   username: { type: String, trim: true, required: true, index: true },
   paymentReference: { type: String, required: !!shouldRequirePaymentReference },
   about: { type: String, index: true },
