@@ -148,10 +148,17 @@ const updatePassword = async ctx => {
 const passwordRequest = async ctx => {
   //send mail link, with jwt username, sign it
   try {
-    const { username, email } = ctx.request.body;
+    const { email } = ctx.request.body;
+    const findByEmail = await User.findOne({ email });
+    if (!findByEmail) {
+      this.status = 404;
+      this.body = { message: "User not found" };
+      return;
+    }
+    const { username } = findByEmail;
     const sign = JWTClient.sign({ username, email });
     const domain =
-      process.env.APP_ENV === "production" ? "https://www.soundit.africa" : "http://localhost:4450";
+      process.env.APP_ENV === "production" ? "https://www.soundit.africa" : "http://localhost:3000";
     console.log(domain, "--domain");
     const mailHtmlBody = ResetMailTemplate(
       username,
@@ -166,7 +173,16 @@ const passwordRequest = async ctx => {
 };
 
 const passwordReset = async ctx => {
-  //reset by finding from username(jwt decode, sign and verify)
+  try {
+    const { token, password } = ctx.request.body;
+    const { uuid: { username, email } } = JWTClient.verify(token);
+    ctx.request.body["username"] = username;
+    updatePassword(ctx);
+    ctx.body = "Successfully Reset Password";
+  } catch (error) {
+    ctx.status = 404;
+    ctx.body = { message: "Error resetting password" };
+  }
 };
 
 export default {
