@@ -2,7 +2,10 @@ import Cloudinary from "cloudinary";
 import Donation from "../server/models/donationModel";
 import User from "../server/models/userModel";
 import Status from "../server/models/statusModel";
+import MailClient from "../util/mail-client";
 import verifyPaystackResponse from "../server/middleware/verifyPaystackResponse";
+import JWTClient from "../util/jwt-utils";
+import ResetMailTemplate from "../util/mailTemplates/resetMail";
 
 Cloudinary.config({
   cloud_name: "soundit-africa",
@@ -142,10 +145,36 @@ const updatePassword = async ctx => {
   }
 };
 
+const passwordRequest = async ctx => {
+  //send mail link, with jwt username, sign it
+  try {
+    const { username, email } = ctx.request.body;
+    const sign = JWTClient.sign({ username, email });
+    const domain =
+      process.env.APP_ENV === "production" ? "https://www.soundit.africa" : "http://localhost:4450";
+    console.log(domain, "--domain");
+    const mailHtmlBody = ResetMailTemplate(
+      username,
+      `https://www.soundit.africa/password/reset?code=${sign}`
+    );
+    MailClient(email, "Password Reset - SoundIT Africa", mailHtmlBody);
+    ctx.body = "You'd receive a mail from us shortly";
+  } catch (error) {
+    ctx.status = 400;
+    ctx.body = { message: "Sorry try again" };
+  }
+};
+
+const passwordReset = async ctx => {
+  //reset by finding from username(jwt decode, sign and verify)
+};
+
 export default {
   donations,
   votings,
   updateOpenStatus,
   uploadProfileImage,
-  updatePassword
+  updatePassword,
+  passwordRequest,
+  passwordReset
 };
