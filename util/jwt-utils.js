@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 const authorization = {
 	secret: process.env.UTIL_SECRET,
-	expiration_interval: 10368000,
+	expiration_interval: "3h",
 	refresh_interval: 10367800
 };
 
