@@ -51,4 +51,15 @@ const findContestant = async ctx => {
   }
 };
 
-export default { fetchMessage, getOpenStatus, findContestant };
+const fetchContestants = async ctx => {
+  try {
+    const user = await User.find({}).select("-password -_id -__v");
+    ctx.body = user;
+    return;
+  } catch (e) {
+    ctx.status = 400;
+    ctx.body = { message: "Error fetching contestants" };
+  }
+};
+
+export default { fetchMessage, getOpenStatus, findContestant, fetchContestants };

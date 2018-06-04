@@ -27,7 +27,7 @@ function startWorker() {
   const port = process.env.PORT || 6500;
   const securePort = process.env.PORT || 6800;
 
-  console.log(process.env.APP_ENV, process.env.NODE_ENV);
+  console.log(process.env.APP_ENV, process.env.NODE_ENV, process.env.SEDUS);
   //mongoose connection
   connection(app);
 

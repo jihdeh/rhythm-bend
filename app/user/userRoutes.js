@@ -25,6 +25,7 @@ function find(app) {
     prefix: "/user"
   });
 
+  //findby username
   router.get("/:username", usercontroller.find);
 
   app.use(router.routes()).use(router.allowedMethods());
