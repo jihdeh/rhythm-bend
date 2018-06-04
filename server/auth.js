@@ -64,6 +64,7 @@ function localsignup() {
         } else {
           if (req.body.password === req.body.confirmPassword) {
             let newuser = new User(req.body);
+            newuser.username = req.body.username.toLowerCase();
             if (newuser.username.length <= 3 || newuser.username.length > 8) {
               return done(
                 null,
