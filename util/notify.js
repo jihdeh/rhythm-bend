@@ -1,4 +1,3 @@
-/*global require, module, process, HOST, log */
 import slackNotify from "slack-notify";
 
 const notify = (title, text) => {
