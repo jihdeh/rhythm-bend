@@ -1,7 +1,7 @@
 /*global require, module, process, HOST, log */
 import slackNotify from "slack-notify";
 
-module.exports = (title, text) => {
+const notify = (title, text) => {
   let slack = slackNotify(process.env.SLACK_HOOK);
   let channel = "#soundit";
 
@@ -14,3 +14,5 @@ module.exports = (title, text) => {
 
   slack.send(payload);
 };
+
+export default notify;
