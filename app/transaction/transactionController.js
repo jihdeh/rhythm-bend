@@ -1,5 +1,6 @@
 import axios from "axios";
 import config from "../../server/config/config";
+import notify from "../../util/notify";
 
 const reject = (e, ctx) => {
   ctx.status = e.response.status;
@@ -27,14 +28,14 @@ const resolve = (_res, ctx) => {
   };
 };
 
-exports.verify = async (ctx, funcCall) => {
-  //funcCall refers to the function called within server
+exports.verify = async ctx => {
   const reference = ctx.params.reference;
+  const direct = ctx.query.direct;
   try {
     const _res = await axios.get(`${config.endpoint}${reference}`, { headers: config.headers });
-    return funcCall ? validResponse(_res) : resolve(_res, ctx);
+    notify("Payment verification", JSON.stringify(validResponse(_res)));
+    return direct ? resolve(_res, ctx) : validResponse(_res);
   } catch (e) {
     return funcCall ? invalidResponse(e) : reject(e, ctx);
   }
 };
-

@@ -159,11 +159,7 @@ const passwordRequest = async ctx => {
     const sign = JWTClient.sign({ username, email });
     const domain =
       process.env.APP_ENV === "production" ? "https://www.soundit.africa" : "http://localhost:3000";
-    console.log(domain, "--domain");
-    const mailHtmlBody = ResetMailTemplate(
-      username,
-      `https://www.soundit.africa/password/reset?code=${sign}`
-    );
+    const mailHtmlBody = ResetMailTemplate(username, `${domain}/password/reset?code=${sign}`);
     MailClient(email, "Password Reset - SoundIT Africa", mailHtmlBody);
     ctx.body = "You'd receive a mail from us shortly";
   } catch (error) {

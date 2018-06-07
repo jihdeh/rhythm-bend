@@ -7,11 +7,11 @@ const verifyResponse = async ctx => {
     if (
       paymentStatus.status === false ||
       paymentStatus.status === "failed" ||
-      paymentStatus.status !== "success" ||
-      paymentStatus.status !== true
+      paymentStatus.status !== "success"
     ) {
       return false;
     }
+    return true;
   }
   return true;
 };

@@ -1,8 +1,8 @@
 import passport from "koa-passport";
 import LocalStrategy from "passport-local";
 import User from "./models/userModel";
-import sendSms from "../util/sms-client";
 import Status from "./models/statusModel";
+import notify from "../util/notify";
 
 import verifyPaystackResponse from "./middleware/verifyPaystackResponse";
 
@@ -49,6 +49,7 @@ function localsignup() {
         }
 
         const isVerified = await verifyPaystackResponse(req);
+
         if (!isVerified) {
           //@TODO send notification details to slack
           done(null, false, "Payment not valid");
@@ -77,7 +78,7 @@ function localsignup() {
 
               try {
                 const saved = await newuser.save();
-                await sendSms(`+${newuser.phoneNumber}`);
+                notify("Registeration", `NAME: ${newuser.username}, Email: ${newuser.email}`);
                 return done(null, saved);
               } catch (err) {
                 return done(null, false, err);
