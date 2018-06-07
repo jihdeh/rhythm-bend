@@ -36,6 +36,6 @@ exports.verify = async ctx => {
     notify("Payment verification", JSON.stringify(validResponse(_res)));
     return direct ? resolve(_res, ctx) : validResponse(_res);
   } catch (e) {
-    return direct ? invalidResponse(e) : reject(e, ctx);
+    return direct ? reject(e, ctx) : invalidResponse(e);
   }
 };
