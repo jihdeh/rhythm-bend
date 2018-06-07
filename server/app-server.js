@@ -5,7 +5,6 @@ import cluster from "cluster";
 
 import App from "./app";
 import connection from "./db/connection";
-import seed from "./db/seeds/user";
 
 function startMaster() {
   const workforce = process.env.WEB_CONCURRENCY || os.cpus().length;
@@ -31,10 +30,6 @@ function startWorker() {
   //mongoose connection
   connection(app);
 
-  if (process.env.APP_ENV !== "production") {
-    //seed db
-    // seed();
-  }
   app.listen(port);
 
   console.info(

@@ -11,7 +11,6 @@ import log from "../util/log";
 import Api from "./api";
 import connection from "./db/connection";
 import Frontend from "./frontend";
-import seed from "./db/seeds/user";
 import auth from "./auth";
 
 function App() {
