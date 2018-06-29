@@ -16,6 +16,7 @@ export default function Api() {
   //bounce back if not from domain
   api.use(async (ctx, next) => {
     console.log(ctx.header.host, ctx.header.origin);
+    ctx.set("Vary", "Accept-Encoding");
     await next();
     return;
   });
