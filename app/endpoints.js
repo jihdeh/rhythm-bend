@@ -37,6 +37,7 @@ router.get("/message", queryRoutes.fetchMessage);
 router.get("/contestants", queryRoutes.fetchContestants);
 router.get("/openStatus", queryRoutes.getOpenStatus);
 router.get("/searchContestant", queryRoutes.findContestant);
+router.post("/notify", queryRoutes.slackLiteNotify);
 
 userRoutes(api);
 transactionRoutes(api);

@@ -1,6 +1,7 @@
 import log from "../util/log";
 import Status from "../server/models/statusModel";
 import User from "../server/models/userModel";
+import notify from "../util/notify";
 
 function fetchMessage(ctx) {
   ctx.body = {
@@ -62,4 +63,16 @@ const fetchContestants = async ctx => {
   }
 };
 
-export default { fetchMessage, getOpenStatus, findContestant, fetchContestants };
+const slackLiteNotify = async ctx => {
+  const { username, voteCount } = ctx.query;
+  try {
+    notify("Lite Vote", `Lite Someone voted for ${username} with ${voteCount}`);
+    ctx.body = "done";
+    return;
+  } catch (e) {
+    ctx.status = 400;
+    ctx.body = { message: "Error sending notification" };
+  }
+};
+
+export default { fetchMessage, getOpenStatus, findContestant, fetchContestants, slackLiteNotify };
