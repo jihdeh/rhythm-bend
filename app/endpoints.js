@@ -37,6 +37,8 @@ router.get("/message", queryRoutes.fetchMessage);
 router.get("/contestants", queryRoutes.fetchContestants);
 router.get("/openStatus", queryRoutes.getOpenStatus);
 router.get("/searchContestant", queryRoutes.findContestant);
+router.get("/sumVotes", queryRoutes.calculateTotalVotes);
+router.get("/averageVotes", queryRoutes.calculateAverageVotes);
 router.post("/notify", queryRoutes.slackLiteNotify);
 
 userRoutes(api);

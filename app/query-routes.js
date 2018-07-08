@@ -75,4 +75,47 @@ const slackLiteNotify = async ctx => {
   }
 };
 
-export default { fetchMessage, getOpenStatus, findContestant, fetchContestants, slackLiteNotify };
+const calculateTotalVotes = async ctx => {
+  try {
+    const getAll = await User.find({ active: true }).select("numberOfVotesAttained");
+    let sum = getAll.reduce((accumulator, currentValue) => {
+      return +accumulator + +currentValue.numberOfVotesAttained;
+    }, 0);
+    ctx.body = sum;
+  } catch (e) {
+    ctx.status = 400;
+    ctx.body = { message: "Error collecting vote counts" };
+  }
+};
+
+const calculateAverageVotes = async ctx => {
+  try {
+    const contestants = await User.find({ active: true }).select("-password -_id -__v");
+    const sumTotalOfVotes = contestants.reduce((accumulator, currentValue) => {
+      return +accumulator + +currentValue.numberOfVotesAttained;
+    }, 0);
+    const average = contestants.map(contestant => {
+      return {
+        average: `${Math.ceil(+contestant.numberOfVotesAttained / sumTotalOfVotes * 100)}%`,
+        username: contestant.username,
+        firstname: contestant.firstName,
+        lastname: contestant.lastName,
+        acquiredVotes: contestant.numberOfVotesAttained
+      };
+    });
+    ctx.body = average;
+  } catch (e) {
+    ctx.status = 400;
+    ctx.body = { message: "Error collecting vote counts" };
+  }
+};
+
+export default {
+  fetchMessage,
+  getOpenStatus,
+  findContestant,
+  fetchContestants,
+  slackLiteNotify,
+  calculateTotalVotes,
+  calculateAverageVotes
+};
