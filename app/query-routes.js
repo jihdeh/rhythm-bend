@@ -27,7 +27,8 @@ const findContestant = async ctx => {
     if (username) {
       const getResult = await User.find({
         username: { $regex: ctx.query.username, $options: "i" },
-        contestantVideo: { $size: 1 },
+        qualified: true,
+        qualifiedVideo: { $size: 1 },
         active: true
       })
         .select("-password -numberOfVotesAttained -phoneNumber -email")
@@ -36,7 +37,11 @@ const findContestant = async ctx => {
       ctx.body = getResult;
       return;
     } else {
-      const getResult = await User.find({ active: true, contestantVideo: { $size: 1 } })
+      const getResult = await User.find({
+        active: true,
+        qualified: true,
+        qualifiedVideo: { $size: 1 }
+      })
         .where("random")
         .near([Math.random(), Math.random()])
         .select("-password -numberOfVotesAttained -phoneNumber -email")
@@ -47,7 +52,6 @@ const findContestant = async ctx => {
     }
   } catch (error) {
     ctx.status = 404;
-    console.log(error);
     ctx.body = { message: "Error getting contestant profile" };
   }
 };
@@ -96,7 +100,8 @@ const calculateAverageVotes = async ctx => {
     }, 0);
     const average = contestants.map(contestant => {
       return {
-        average: `${Math.ceil(+contestant.numberOfVotesAttained / sumTotalOfVotes * 100)}%`,
+        average: `${Math.ceil(+contestant.numberOfVotesAttained / sumTotalOfVotes * 100 * 100) /
+          100}%`,
         username: contestant.username,
         firstname: contestant.firstName,
         lastname: contestant.lastName,

@@ -22,6 +22,7 @@ router.post("/vote/:reference", editRoutes.votings);
 router.post("/password/request", editRoutes.passwordRequest);
 router.post("/password/reset", editRoutes.passwordReset);
 
+router.put("/setQualified", editRoutes.setQualifiedCandidates);
 router.put("/openStatus", editRoutes.updateOpenStatus);
 router.put("/updatePassword", editRoutes.updatePassword);
 router.put(

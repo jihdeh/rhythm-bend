@@ -181,6 +181,19 @@ const passwordReset = async ctx => {
   }
 };
 
+const setQualifiedCandidates = async ctx => {
+  try {
+    const { isQualified, username } = ctx.request.body;
+    const updated = await User.findOneAndUpdate({ username }, { qualified: isQualified });
+    ctx.body = "Successfully Updated Qualification";
+  } catch (error) {
+    ctx.status = 404;
+    ctx.body = {
+      message: e
+    };
+  }
+};
+
 export default {
   donations,
   votings,
@@ -188,5 +201,6 @@ export default {
   uploadProfileImage,
   updatePassword,
   passwordRequest,
-  passwordReset
+  passwordReset,
+  setQualifiedCandidates
 };
