@@ -24,6 +24,7 @@ router.post("/password/reset", editRoutes.passwordReset);
 
 router.put("/setQualified", editRoutes.setQualifiedCandidates);
 router.put("/openStatus", editRoutes.updateOpenStatus);
+router.put("/resetVoteCount", editRoutes.resetVoteCount);
 router.put("/updatePassword", editRoutes.updatePassword);
 router.put(
   "/uploadProfileImage",

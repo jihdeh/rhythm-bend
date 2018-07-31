@@ -194,6 +194,20 @@ const setQualifiedCandidates = async ctx => {
   }
 };
 
+const resetVoteCount = async ctx => {
+  try {
+    const updated = await User.update(
+      {},
+      { numberOfVotesAttained: "0", qualified: false },
+      { multi: true }
+    );
+    ctx.body = "Successfully reset count";
+  } catch (e) {
+    ctx.status = 404;
+    ctx.body = { message: "Error resetting count" };
+  }
+};
+
 export default {
   donations,
   votings,
@@ -202,5 +216,6 @@ export default {
   updatePassword,
   passwordRequest,
   passwordReset,
-  setQualifiedCandidates
+  setQualifiedCandidates,
+  resetVoteCount
 };

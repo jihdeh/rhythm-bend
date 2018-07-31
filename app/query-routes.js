@@ -81,7 +81,9 @@ const slackLiteNotify = async ctx => {
 
 const calculateTotalVotes = async ctx => {
   try {
-    const getAll = await User.find({ active: true }).select("numberOfVotesAttained");
+    const getAll = await User.find({ active: true, qualified: true }).select(
+      "numberOfVotesAttained"
+    );
     let sum = getAll.reduce((accumulator, currentValue) => {
       return +accumulator + +currentValue.numberOfVotesAttained;
     }, 0);
@@ -94,7 +96,9 @@ const calculateTotalVotes = async ctx => {
 
 const calculateAverageVotes = async ctx => {
   try {
-    const contestants = await User.find({ active: true }).select("-password -_id -__v");
+    const contestants = await User.find({ active: true, qualified: true }).select(
+      "-password -_id -__v"
+    );
     const sumTotalOfVotes = contestants.reduce((accumulator, currentValue) => {
       return +accumulator + +currentValue.numberOfVotesAttained;
     }, 0);
